@@ -191,10 +191,16 @@ function Signup() {
                       </Select>
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Stream</FormLabel>
-                      <Select placeholder="Select stream">
-                        <option value="Science">Science</option>
-                        <option value="Arts">Arts</option>
+                      <FormLabel>Class</FormLabel>
+                      <Select placeholder="Select class">
+                        <option value="Fifth">Fifth</option>
+                        <option value="Sixth">Sixth</option>
+                        <option value="Seventh">Seventh</option>
+                        <option value="Eighth">Eighth</option>
+                        <option value="Ninth">Ninth</option>
+                        <option value="Tenth">Tenth</option>
+                        <option value="Eleventh">Eleventh</option>
+                        <option value="Twelfth">Twelfth</option>
                       </Select>
                     </FormControl>
                   </Box>

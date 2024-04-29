@@ -53,7 +53,7 @@ function Navbar() {
             <Link to={"/signup"}>SignUp</Link>
           </Text>
           <Text _hover={{borderBottom:"3px solid blue", color:"blue"}}>
-            <Link to={"#"}>Login</Link>
+            <Link to={"/login"}>Login</Link>
           </Text>
         </Box>
       </Box>
