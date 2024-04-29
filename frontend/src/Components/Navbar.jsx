@@ -50,7 +50,7 @@ function Navbar() {
           gap={"20px"}
         >
           <Text _hover={{borderBottom:"3px solid blue", color:"blue"}}>
-            <Link to={"#"}>SignUp</Link>
+            <Link to={"/signup"}>SignUp</Link>
           </Text>
           <Text _hover={{borderBottom:"3px solid blue", color:"blue"}}>
             <Link to={"#"}>Login</Link>
