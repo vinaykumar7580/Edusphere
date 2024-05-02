@@ -27,11 +27,11 @@ function Signup() {
     >
       <Box
         w={"40%"}
-        p={"2%"}
+        p={"1%"}
         boxShadow={"md"}
         bg={"white"}
         position={"absolute"}
-        top={"5%"}
+        top={"4%"}
         left={"30%"}
         borderRadius={"10px"}
       >
@@ -51,7 +51,7 @@ function Signup() {
             </TabList>
             <TabPanels>
               <TabPanel>
-                <Box boxShadow={"2xl"} p={"20px"} borderRadius={"5px"}>
+                <Box boxShadow={"2xl"} p={"10px 20px"} borderRadius={"5px"}>
                   <Box
                     display={"grid"}
                     gridTemplateColumns={"repeat(2, 1fr)"}
@@ -94,24 +94,20 @@ function Signup() {
                       <Input type="date" isRequired />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Class</FormLabel>
-                      <Select placeholder="Select class">
-                        <option value="Fifth">Fifth</option>
-                        <option value="Sixth">Sixth</option>
-                        <option value="Seventh">Seventh</option>
-                        <option value="Eighth">Eighth</option>
-                        <option value="Ninth">Ninth</option>
-                        <option value="Tenth">Tenth</option>
-                        <option value="Eleventh">Eleventh</option>
-                        <option value="Twelfth">Twelfth</option>
-                      </Select>
+                      <FormLabel>Age</FormLabel>
+                      <Input type="text" placeholder="Enter age"/>
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Stream</FormLabel>
-                      <Select placeholder="Select stream">
-                        <option value="Science">Science</option>
-                        <option value="Arts">Arts</option>
-                      </Select>
+                      <FormLabel>Address</FormLabel>
+                      <Input type="text" placeholder="Enter address"/>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>City</FormLabel>
+                      <Input type="text" placeholder="Enter city"/>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>State</FormLabel>
+                      <Input type="text" placeholder="Enter state"/>
                     </FormControl>
                   </Box>
                   <Box
@@ -125,7 +121,7 @@ function Signup() {
                 </Box>
               </TabPanel>
               <TabPanel>
-                <Box boxShadow={"2xl"} p={"20px"} borderRadius={"5px"}>
+                <Box boxShadow={"2xl"} p={"10px 20px"} borderRadius={"5px"}>
                   <Box
                     display={"grid"}
                     gridTemplateColumns={"repeat(2, 1fr)"}
@@ -168,40 +164,20 @@ function Signup() {
                       <Input type="date" isRequired />
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Subject</FormLabel>
-                      <Select placeholder="Select subject">
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="Physics">Physics</option>
-                        <option value="Chemistry">Chemistry</option>
-                        <option value="Biology">Biology</option>
-                        <option value="History">History</option>
-                        <option value="English">English</option>
-                        <option value="Hindi">Hindi</option>
-                        <option value="Marathi">Marathi</option>
-                        <option value="Geography">Geography</option>
-                        <option value="Computer Science">
-                          Computer Science
-                        </option>
-                        <option value="Information Technology">
-                          Information Technology
-                        </option>
-                        <option value="Physical Education">
-                          Physical Education
-                        </option>
-                      </Select>
+                      <FormLabel>Age</FormLabel>
+                      <Input type="text" placeholder="Enter age"/>
                     </FormControl>
                     <FormControl>
-                      <FormLabel>Class</FormLabel>
-                      <Select placeholder="Select class">
-                        <option value="Fifth">Fifth</option>
-                        <option value="Sixth">Sixth</option>
-                        <option value="Seventh">Seventh</option>
-                        <option value="Eighth">Eighth</option>
-                        <option value="Ninth">Ninth</option>
-                        <option value="Tenth">Tenth</option>
-                        <option value="Eleventh">Eleventh</option>
-                        <option value="Twelfth">Twelfth</option>
-                      </Select>
+                      <FormLabel>Address</FormLabel>
+                      <Input type="text" placeholder="Enter address"/>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>City</FormLabel>
+                      <Input type="text" placeholder="Enter city"/>
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel>State</FormLabel>
+                      <Input type="text" placeholder="Enter state"/>
                     </FormControl>
                   </Box>
                   <Box
