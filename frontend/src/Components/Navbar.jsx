@@ -28,6 +28,7 @@ function Navbar() {
       // )"
       // backgroundColor={"transparent"}
       backgroundColor={"rgba(0, 0, 0, 0.3)"}
+      zIndex={2000}
       
     >
       <Box

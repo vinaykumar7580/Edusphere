@@ -1,6 +1,8 @@
 import { Box, Image, Text, Heading, Button } from "@chakra-ui/react";
 import Navbar from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
+import TestimonialSlider from "../Components/Slider";
+import Footer from "../Components/Footer";
 
 function Home() {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ function Home() {
             backgroundColor={"rgba(0, 0, 0, 0.3)"}
             color={"white"}
             borderRadius={"5%"}
-            zIndex={"1"}
+            zIndex={1}
             fontWeight={"bold"}
             position={"absolute"}
             top={"180px"}
@@ -100,7 +102,7 @@ function Home() {
           </Box>
         </Box>
 
-        <Box w={"80%"} m={"auto"} mt={"50px"}>
+        <Box w={"70%"} m={"auto"} mt={"50px"}>
           <Heading fontFamily={"serif"} color={"rgba(0, 212, 255, 1)"}>
             Learning Through Classes
           </Heading>
@@ -162,10 +164,17 @@ function Home() {
           </Box>
         </Box>
 
-        <Box mt={"50px"}>
+        <Box w={"77%"} m={"auto"} mt={"50px"}>
           <Heading fontFamily={"serif"} color={"rgba(0, 212, 255, 1)"}>
             What our students say's
           </Heading>
+          <Box>
+            <TestimonialSlider/>
+          </Box>
+        </Box>
+
+        <Box mt={"30px"}>
+          <Footer/>
         </Box>
       </Box>
     </Box>
