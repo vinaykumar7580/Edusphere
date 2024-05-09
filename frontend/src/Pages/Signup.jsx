@@ -12,8 +12,55 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { handleSudentRegister } from "../Redux/StudentAuth/action";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
+  const [studentForm, setStudentForm] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    password: "",
+    gender: "",
+    birth: "",
+    age: "",
+    address: "",
+    city: "",
+    state: "",
+  });
+
+  const navigate=useNavigate()
+  const dispatch=useDispatch()
+
+  const handleChangeStudent = (e) => {
+    const { name, value } = e.target;
+    setStudentForm({ ...studentForm, [name]: value });
+  };
+
+  const handleSubmitStudent = () => {
+   
+    dispatch(handleSudentRegister(studentForm, navigate))
+    
+    setStudentForm({
+      name: "",
+      email: "",
+      mobile: "",
+      password: "",
+      gender: "",
+      birth: "",
+      age: "",
+      address: "",
+      city: "",
+      state: "",
+    })
+  };
+
+  useEffect(()=>{
+    document.title="SignUp | Edusphere"
+  },[])
+
   return (
     <Box
       h={"100vh"}
@@ -59,31 +106,55 @@ function Signup() {
                   >
                     <FormControl>
                       <FormLabel>Name</FormLabel>
-                      <Input type="text" placeholder="Enter name" isRequired />
+                      <Input
+                        type="text"
+                        placeholder="Enter name"
+                        name="name"
+                        value={studentForm.name}
+                        onChange={handleChangeStudent}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Email</FormLabel>
                       <Input
                         type="email"
                         placeholder="Enter email"
+                        name="email"
+                        value={studentForm.email}
+                        onChange={handleChangeStudent}
                         isRequired
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Mobile Number</FormLabel>
-                      <Input type="tel" placeholder="Enter number" isRequired />
+                      <Input
+                        type="tel"
+                        placeholder="Enter number"
+                        name="mobile"
+                        value={studentForm.mobile}
+                        onChange={handleChangeStudent}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Password</FormLabel>
                       <Input
                         type="password"
                         placeholder="Enter password"
+                        name="password"
+                        value={studentForm.password}
+                        onChange={handleChangeStudent}
                         isRequired
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Gender</FormLabel>
-                      <Select placeholder="Select gender">
+                      <Select
+                        placeholder="Select gender"
+                        name="gender"
+                        onChange={handleChangeStudent}
+                      >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -91,23 +162,55 @@ function Signup() {
                     </FormControl>
                     <FormControl>
                       <FormLabel>Date of Birth</FormLabel>
-                      <Input type="date" isRequired />
+                      <Input
+                        type="date"
+                        name="birth"
+                        value={studentForm.birth}
+                        onChange={handleChangeStudent}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Age</FormLabel>
-                      <Input type="text" placeholder="Enter age"/>
+                      <Input
+                        type="text"
+                        placeholder="Enter age"
+                        name="age"
+                        value={studentForm.age}
+                        onChange={handleChangeStudent}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Address</FormLabel>
-                      <Input type="text" placeholder="Enter address"/>
+                      <Input
+                        type="text"
+                        placeholder="Enter address"
+                        name="address"
+                        value={studentForm.address}
+                        onChange={handleChangeStudent}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>City</FormLabel>
-                      <Input type="text" placeholder="Enter city"/>
+                      <Input
+                        type="text"
+                        placeholder="Enter city"
+                        name="city"
+                        value={studentForm.city}
+                        onChange={handleChangeStudent}
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>State</FormLabel>
-                      <Input type="text" placeholder="Enter state"/>
+                      <Input
+                        type="text"
+                        placeholder="Enter state"
+                        name="state"
+                        value={studentForm.state}
+                        onChange={handleChangeStudent}
+                      />
                     </FormControl>
                   </Box>
                   <Box
@@ -116,7 +219,7 @@ function Signup() {
                     alignItems={"center"}
                     mt={"20px"}
                   >
-                    <Button colorScheme="blue">Submit</Button>
+                    <Button colorScheme="blue" onClick={handleSubmitStudent}>Submit</Button>
                   </Box>
                 </Box>
               </TabPanel>
@@ -165,19 +268,19 @@ function Signup() {
                     </FormControl>
                     <FormControl>
                       <FormLabel>Age</FormLabel>
-                      <Input type="text" placeholder="Enter age"/>
+                      <Input type="text" placeholder="Enter age" />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Address</FormLabel>
-                      <Input type="text" placeholder="Enter address"/>
+                      <Input type="text" placeholder="Enter address" />
                     </FormControl>
                     <FormControl>
                       <FormLabel>City</FormLabel>
-                      <Input type="text" placeholder="Enter city"/>
+                      <Input type="text" placeholder="Enter city" />
                     </FormControl>
                     <FormControl>
                       <FormLabel>State</FormLabel>
-                      <Input type="text" placeholder="Enter state"/>
+                      <Input type="text" placeholder="Enter state" />
                     </FormControl>
                   </Box>
                   <Box

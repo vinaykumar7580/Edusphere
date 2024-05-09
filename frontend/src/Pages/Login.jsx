@@ -12,8 +12,37 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { handleSudentLogin } from "../Redux/StudentAuth/action";
 
 function Login() {
+  const [studentForm, setStudentForm] = useState({
+    mobile: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleChangeStudent = (e) => {
+    const { name, value } = e.target;
+    setStudentForm({ ...studentForm, [name]: value });
+  };
+
+  const handleSubmitStudent = () => {
+    dispatch(handleSudentLogin(studentForm, navigate));
+
+    setStudentForm({
+      mobile: "",
+      password: "",
+    });
+  };
+
+  useEffect(()=>{
+    document.title="Login | Edusphere"
+  },[])
   return (
     <Box
       h={"100vh"}
@@ -55,13 +84,23 @@ function Login() {
                   <Box>
                     <FormControl>
                       <FormLabel>Mobile Number</FormLabel>
-                      <Input type="tel" placeholder="Enter number" isRequired />
+                      <Input
+                        type="tel"
+                        placeholder="Enter number"
+                        name="mobile"
+                        value={studentForm.mobile}
+                        onChange={handleChangeStudent}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl mt={"10px"}>
                       <FormLabel>Password</FormLabel>
                       <Input
                         type="password"
                         placeholder="Enter password"
+                        name="password"
+                        value={studentForm.password}
+                        onChange={handleChangeStudent}
                         isRequired
                       />
                     </FormControl>
@@ -72,7 +111,7 @@ function Login() {
                     alignItems={"center"}
                     mt={"20px"}
                   >
-                    <Button colorScheme="blue">Submit</Button>
+                    <Button onClick={handleSubmitStudent} colorScheme="blue">Submit</Button>
                   </Box>
                 </Box>
               </TabPanel>

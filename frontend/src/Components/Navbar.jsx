@@ -8,11 +8,35 @@ import {
   MenuItem,
   Image,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoNotifications } from "react-icons/io5";
+import { useEffect, useState } from "react";
 
 function Navbar() {
-  const token = false;
+  const [token, setToken] = useState(null);
+  const [role, setRole] = useState(null);
+
+  const navigate=useNavigate()
+
+  useEffect(() => {
+    let tokenData = localStorage.getItem("token") || null;
+    setToken(tokenData);
+
+    let roleData = localStorage.getItem("role") || null;
+    setRole(roleData);
+  }, []);
+
+  const handleLogout=()=>{
+    localStorage.removeItem("token")
+    localStorage.removeItem("role")
+
+    setToken(null)
+    setRole(null)
+
+    navigate("/")
+    
+  }
+
   return (
     <Box
       display={"flex"}
@@ -29,7 +53,6 @@ function Navbar() {
       // backgroundColor={"transparent"}
       backgroundColor={"rgba(0, 0, 0, 0.3)"}
       zIndex={2000}
-      
     >
       <Box
         fontSize={"30px"}
@@ -53,6 +76,46 @@ function Navbar() {
           alignItems={"center"}
           gap={"20px"}
         >
+          {role == "student" && (
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              gap={"20px"}
+            >
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Lectures</Link>
+              </Text>
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Assignments</Link>
+              </Text>
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Tests</Link>
+              </Text>
+            </Box>
+          )}
+
+          {role == "instructor" && (
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              gap={"20px"}
+            >
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Lectures</Link>
+              </Text>
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Assignments</Link>
+              </Text>
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Tests</Link>
+              </Text>
+              <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
+                <Link to={"#"}>Notify's</Link>
+              </Text>
+            </Box>
+          )}
           <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
             <Link to={"#"}>Features</Link>
           </Text>
@@ -62,6 +125,8 @@ function Navbar() {
           <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
             <Link to={"#"}>Community</Link>
           </Text>
+
+          
         </Box>
         {token ? (
           <Box
@@ -70,20 +135,22 @@ function Navbar() {
             alignItems={"center"}
             gap={"20px"}
           >
-            <Box>
-              <Menu>
-                <MenuButton mt={"10px"}>
-                  <IoNotifications size={"20px"} />
-                </MenuButton>
-                <MenuList color={"black"}>
-                  <MenuItem>Download</MenuItem>
-                  <MenuItem>Create a Copy</MenuItem>
-                  <MenuItem>Mark as Draft</MenuItem>
-                  <MenuItem>Delete</MenuItem>
-                  <MenuItem>Attend a Workshop</MenuItem>
-                </MenuList>
-              </Menu>
-            </Box>
+            {role == "student" && (
+              <Box>
+                <Menu>
+                  <MenuButton mt={"10px"}>
+                    <IoNotifications size={"20px"} />
+                  </MenuButton>
+                  <MenuList color={"black"}>
+                    <MenuItem>Download</MenuItem>
+                    <MenuItem>Create a Copy</MenuItem>
+                    <MenuItem>Mark as Draft</MenuItem>
+                    <MenuItem>Delete</MenuItem>
+                    <MenuItem>Attend a Workshop</MenuItem>
+                  </MenuList>
+                </Menu>
+              </Box>
+            )}
             <Box>
               <Menu>
                 <MenuButton mt={"10px"}>
@@ -95,11 +162,11 @@ function Navbar() {
                   />
                 </MenuButton>
                 <MenuList color={"black"}>
-                  <MenuItem>Download</MenuItem>
-                  <MenuItem>Create a Copy</MenuItem>
-                  <MenuItem>Mark as Draft</MenuItem>
-                  <MenuItem>Delete</MenuItem>
-                  <MenuItem>Attend a Workshop</MenuItem>
+                  <MenuItem>Change Profile</MenuItem>
+                  <MenuItem>Change Password</MenuItem>
+                  <MenuItem>Privacy Policy</MenuItem>
+                  <MenuItem>Settings</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
             </Box>

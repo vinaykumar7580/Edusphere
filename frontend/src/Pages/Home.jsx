@@ -3,9 +3,24 @@ import Navbar from "../Components/Navbar";
 import { useNavigate } from "react-router-dom";
 import TestimonialSlider from "../Components/Slider";
 import Footer from "../Components/Footer";
+import { useEffect, useState } from "react";
 
 function Home() {
+  const [token, setToken]=useState(null)
+  const [role, setRole]=useState(null)
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    document.title="Home | Edusphere"
+  },[])
+
+  useEffect(()=>{
+    let tokenData = localStorage.getItem("token") || null;
+    setToken(tokenData);
+
+    let roleData = localStorage.getItem("role") || null;
+    setRole(roleData);
+  },[])
 
   return (
     <Box>
@@ -41,7 +56,11 @@ function Home() {
               Are you ready to develop your professional skills?
             </Text>
             <Text color={"#959595"}>You are in the right place.</Text>
-            <Box
+
+            <Box mt={"20px"}>
+              <Heading fontFamily={"cursive"} color={"orange"} fontSize={"23px"}>WelCome To Edusphere</Heading>
+            </Box>
+            {/* <Box
               mt={"20px"}
               display={"flex"}
               justifyContent={"center"}
@@ -54,7 +73,7 @@ function Home() {
               <Button onClick={() => navigate("/login")} colorScheme="orange">
                 LOGIN HERE
               </Button>
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <Box w={"70%"} m={"auto"} mt={"50px"}>
