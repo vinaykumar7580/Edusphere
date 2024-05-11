@@ -35,6 +35,7 @@ const TestimonialCarousel = () => {
         infiniteLoop={true}
         interval={5000}
         stopOnHover={true}
+        showThumbs={false}
        
       >
         {testimonialData.map((testimonial, index) => (

@@ -4,11 +4,17 @@ import { useNavigate } from "react-router-dom";
 import TestimonialSlider from "../Components/Slider";
 import Footer from "../Components/Footer";
 import { useEffect, useState } from "react";
+import {useDispatch, useSelector} from "react-redux"
+import { getProfileStudent } from "../Redux/StudentProfile/action";
+import StudentModal from "../Components/StudentModal";
 
 function Home() {
   const [token, setToken]=useState(null)
   const [role, setRole]=useState(null)
+
   const navigate = useNavigate();
+  const dispatch=useDispatch()
+  const {getProfileDataStudent}=useSelector((store)=>store.studentProfileReducer)
 
   useEffect(()=>{
     document.title="Home | Edusphere"
@@ -21,6 +27,12 @@ function Home() {
     let roleData = localStorage.getItem("role") || null;
     setRole(roleData);
   },[])
+
+  useEffect(()=>{
+    dispatch(getProfileStudent)
+  },[])
+
+ console.log("getProfileDataStudent",getProfileDataStudent)
 
   return (
     <Box>
@@ -191,7 +203,7 @@ function Home() {
             <TestimonialSlider/>
           </Box>
         </Box>
-
+        {getProfileDataStudent && !getProfileDataStudent.class && <StudentModal/>}
         <Box mt={"30px"}>
           <Footer/>
         </Box>

@@ -46,6 +46,10 @@ const studentSchema=mongoose.Schema({
     image:{
         type:String
     },
+    role: {
+        type: String,
+        default: 'student'
+    },
     createdAt: {
         type: Date,
         default: Date.now 

@@ -1,9 +1,11 @@
 import { applyMiddleware, combineReducers, legacy_createStore } from "redux";
 import {thunk} from "redux-thunk";
 import studentAuthReducer from "./StudentAuth/reducer";
+import studentProfileReducer from "./StudentProfile/reducer";
 
 const rootReducer = combineReducers({
-    studentAuthReducer
+    studentAuthReducer,
+    studentProfileReducer
     
   });
   

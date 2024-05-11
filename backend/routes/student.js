@@ -68,4 +68,38 @@ studentRoutes.post("/login", async (req, res) => {
   }
 });
 
+studentRoutes.get("/profile", async(req, res)=>{
+  const token=req.headers.authorization;
+  const decoded = jwt.verify(token, 'masai');
+  try{
+    if(decoded){
+      let student= await StudentAuthModel.findOne({_id:decoded.studentId})
+      res.status(200).send(student)
+
+    }else{
+      res.status(500).send({message:"Please, Login first!"})
+    }
+
+  }catch(err){
+    res.status(500).send({ error: err });
+  }
+})
+
+studentRoutes.patch("/profile-update", async(req, res)=>{
+  const token=req.headers.authorization;
+  const decoded = jwt.verify(token, 'masai');
+  const payload=req.body;
+  try{
+    if(decoded){
+      await StudentAuthModel.findByIdAndUpdate({_id:decoded.studentId}, payload)
+      res.status(200).send({message:"Profile updated successfully"})
+
+    }else{
+      res.status(500).send({message:"Please, Login first!"})
+    }
+  }catch(err){
+    res.status(500).send({ error: err });
+  }
+})
+
 module.exports={studentRoutes}
