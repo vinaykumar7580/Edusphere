@@ -14,6 +14,8 @@ export const handleSudentRegister = (data, navigate) => (dispatch) => {
         dispatch({ type: types.STUDENT_REGISTER_SUCCESS, payload: res.data });
         toast.success("Student Register Successfully!");
         navigate("/login");
+      }else{
+        toast.error("Error, Please try again later.");
       }
     })
     .catch((err) => {
@@ -33,10 +35,11 @@ export const handleSudentLogin = (data, navigate) => (dispatch) => {
       console.log("stuLogin", res.data);
       if (res.data.message == "Student login success") {
         localStorage.setItem("token", res.data.token)
-        localStorage.setItem("role", res.data.role)
         dispatch({ type: types.STUDENT_LOGIN_SUCCESS, payload: res.data });
         toast.success("Student Login Successfully!");
         navigate("/");
+      }else{
+        toast.error("Error, Please try again later.");
       }
     })
     .catch((err) => {

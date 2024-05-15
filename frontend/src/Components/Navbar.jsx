@@ -11,31 +11,30 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { IoNotifications } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [token, setToken] = useState(null);
   const [role, setRole] = useState(null);
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const {getProfileDataStudent}=useSelector((store)=>store.studentProfileReducer)
+  const {getProfileDataInstructor}=useSelector((store)=>store.instructorProfileReducer)
 
   useEffect(() => {
     let tokenData = localStorage.getItem("token") || null;
     setToken(tokenData);
-
-    let roleData = localStorage.getItem("role") || null;
-    setRole(roleData);
   }, []);
 
-  const handleLogout=()=>{
-    localStorage.removeItem("token")
-    localStorage.removeItem("role")
+  const handleLogout = () => {
+    localStorage.removeItem("token");
 
-    setToken(null)
-    setRole(null)
+    setToken(null);
 
-    navigate("/")
-    
-  }
+    navigate("/");
+  };
+
+  console.log("from", getProfileDataStudent)
 
   return (
     <Box
@@ -76,7 +75,7 @@ function Navbar() {
           alignItems={"center"}
           gap={"20px"}
         >
-          {role == "student" && (
+          {getProfileDataStudent && getProfileDataStudent?.role == "student" && (
             <Box
               display={"flex"}
               justifyContent={"space-between"}
@@ -95,7 +94,7 @@ function Navbar() {
             </Box>
           )}
 
-          {role == "instructor" && (
+          {getProfileDataInstructor && getProfileDataInstructor?.role == "instructor" && (
             <Box
               display={"flex"}
               justifyContent={"space-between"}
@@ -112,7 +111,7 @@ function Navbar() {
                 <Link to={"#"}>Tests</Link>
               </Text>
               <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
-                <Link to={"#"}>Notify's</Link>
+                <Link to={"#"}>Announcement</Link>
               </Text>
             </Box>
           )}
@@ -125,8 +124,6 @@ function Navbar() {
           <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
             <Link to={"#"}>Community</Link>
           </Text>
-
-          
         </Box>
         {token ? (
           <Box
@@ -135,7 +132,7 @@ function Navbar() {
             alignItems={"center"}
             gap={"20px"}
           >
-            {role == "student" && (
+            {getProfileDataStudent && getProfileDataStudent?.role == "student" && (
               <Box>
                 <Menu>
                   <MenuButton mt={"10px"}>

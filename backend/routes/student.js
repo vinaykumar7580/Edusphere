@@ -54,9 +54,9 @@ studentRoutes.post("/login", async (req, res) => {
     if(student){
       bcrypt.compare(password, student?.password, async(err, result)=> {
         if(result){
-          const token = jwt.sign({ studentId:student._id}, 'masai');
-          const role="student"
-          res.status(200).send({message:"Student login success", token, role})
+          const token = jwt.sign({ userId:student._id, role:"student"}, 'masai');
+          
+          res.status(200).send({message:"Student login success", token})
         }else{
           res.status(500).send({message:"Student login failed"})
         }
@@ -71,9 +71,10 @@ studentRoutes.post("/login", async (req, res) => {
 studentRoutes.get("/profile", async(req, res)=>{
   const token=req.headers.authorization;
   const decoded = jwt.verify(token, 'masai');
+ 
   try{
-    if(decoded){
-      let student= await StudentAuthModel.findOne({_id:decoded.studentId})
+    if(decoded.role=="student"){
+      let student= await StudentAuthModel.findOne({_id:decoded.userId})
       res.status(200).send(student)
 
     }else{
@@ -90,8 +91,8 @@ studentRoutes.patch("/profile-update", async(req, res)=>{
   const decoded = jwt.verify(token, 'masai');
   const payload=req.body;
   try{
-    if(decoded){
-      await StudentAuthModel.findByIdAndUpdate({_id:decoded.studentId}, payload)
+    if(decoded.role=="student"){
+      await StudentAuthModel.findByIdAndUpdate({_id:decoded.userId}, payload)
       res.status(200).send({message:"Profile updated successfully"})
 
     }else{

@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { handleSudentRegister } from "../Redux/StudentAuth/action";
 import { useNavigate } from "react-router-dom";
+import { handleInstructorRegister } from "../Redux/InstructorAuth/action";
 
 function Signup() {
   const [studentForm, setStudentForm] = useState({
@@ -29,20 +30,39 @@ function Signup() {
     address: "",
     city: "",
     state: "",
+    
   });
 
-  const navigate=useNavigate()
-  const dispatch=useDispatch()
+  const [instructorForm, setInstructorForm] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    password: "",
+    gender: "",
+    birth: "",
+    age: "",
+    address: "",
+    city: "",
+    state: "",
+    
+  });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChangeStudent = (e) => {
     const { name, value } = e.target;
     setStudentForm({ ...studentForm, [name]: value });
   };
 
+  const handleChangeInstructor = (e) => {
+    const { name, value } = e.target;
+    setInstructorForm({ ...instructorForm, [name]: value });
+  };
+
   const handleSubmitStudent = () => {
-   
-    dispatch(handleSudentRegister(studentForm, navigate))
-    
+    dispatch(handleSudentRegister(studentForm, navigate));
+
     setStudentForm({
       name: "",
       email: "",
@@ -54,33 +74,56 @@ function Signup() {
       address: "",
       city: "",
       state: "",
-    })
+
+    });
   };
 
-  useEffect(()=>{
-    document.title="SignUp | Edusphere"
-  },[])
+  const handleSubmitInstructor = () => {
+    console.log("ints", instructorForm);
+
+    dispatch(handleInstructorRegister(instructorForm, navigate))
+
+    setInstructorForm({
+      name: "",
+      email: "",
+      mobile: "",
+      password: "",
+      gender: "",
+      birth: "",
+      age: "",
+      address: "",
+      city: "",
+      state: "",
+    });
+  };
+
+  useEffect(() => {
+    document.title = "SignUp | Edusphere";
+  }, []);
 
   return (
     <Box
-      h={"100vh"}
+      // h={"100vh"}
       background="linear-gradient(
             90deg,
             rgba(2, 0, 36, 1) 0%,
             rgba(9, 9, 121, 1) 35%,
             rgba(0, 212, 255, 1) 100%
           )"
-      position={"relative"}
+      // position={"relative"}
+      p={"30px"}
     >
       <Box
         w={"40%"}
         p={"1%"}
         boxShadow={"md"}
         bg={"white"}
-        position={"absolute"}
-        top={"4%"}
-        left={"30%"}
+        // position={"absolute"}
+        // top={"4%"}
+        // left={"30%"}
         borderRadius={"10px"}
+        m={"auto"}
+       
       >
         <Heading fontFamily={"serif"}>SignUp</Heading>
         <Box mt={"10px"}>
@@ -219,7 +262,9 @@ function Signup() {
                     alignItems={"center"}
                     mt={"20px"}
                   >
-                    <Button colorScheme="blue" onClick={handleSubmitStudent}>Submit</Button>
+                    <Button colorScheme="blue" onClick={handleSubmitStudent}>
+                      Submit
+                    </Button>
                   </Box>
                 </Box>
               </TabPanel>
@@ -232,31 +277,55 @@ function Signup() {
                   >
                     <FormControl>
                       <FormLabel>Name</FormLabel>
-                      <Input type="text" placeholder="Enter name" isRequired />
+                      <Input
+                        type="text"
+                        placeholder="Enter name"
+                        name="name"
+                        value={instructorForm.name}
+                        onChange={handleChangeInstructor}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Email</FormLabel>
                       <Input
                         type="email"
                         placeholder="Enter email"
+                        name="email"
+                        value={instructorForm.email}
+                        onChange={handleChangeInstructor}
                         isRequired
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Mobile Number</FormLabel>
-                      <Input type="tel" placeholder="Enter number" isRequired />
+                      <Input
+                        type="tel"
+                        placeholder="Enter number"
+                        name="mobile"
+                        value={instructorForm.mobile}
+                        onChange={handleChangeInstructor}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Password</FormLabel>
                       <Input
                         type="password"
                         placeholder="Enter password"
+                        name="password"
+                        value={instructorForm.password}
+                        onChange={handleChangeInstructor}
                         isRequired
                       />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Gender</FormLabel>
-                      <Select placeholder="Select gender">
+                      <Select
+                        placeholder="Select gender"
+                        name="gender"
+                        onChange={handleChangeInstructor}
+                      >
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
@@ -264,23 +333,41 @@ function Signup() {
                     </FormControl>
                     <FormControl>
                       <FormLabel>Date of Birth</FormLabel>
-                      <Input type="date" isRequired />
+                      <Input
+                        type="date"
+                        name="birth"
+                        value={instructorForm.birth}
+                        onChange={handleChangeInstructor}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Age</FormLabel>
-                      <Input type="text" placeholder="Enter age" />
+                      <Input
+                        type="text"
+                        placeholder="Enter age"
+                        name="age"
+                        value={instructorForm.age}
+                        onChange={handleChangeInstructor}
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>Address</FormLabel>
-                      <Input type="text" placeholder="Enter address" />
+                      <Input
+                        type="text"
+                        placeholder="Enter address"
+                        name="address"
+                        value={instructorForm.address}
+                        onChange={handleChangeInstructor}
+                      />
                     </FormControl>
                     <FormControl>
                       <FormLabel>City</FormLabel>
-                      <Input type="text" placeholder="Enter city" />
+                      <Input type="text" placeholder="Enter city" name="city" value={instructorForm.city} onChange={handleChangeInstructor} />
                     </FormControl>
                     <FormControl>
                       <FormLabel>State</FormLabel>
-                      <Input type="text" placeholder="Enter state" />
+                      <Input type="text" placeholder="Enter state" name="state" value={instructorForm.state} onChange={handleChangeInstructor} />
                     </FormControl>
                   </Box>
                   <Box
@@ -289,7 +376,7 @@ function Signup() {
                     alignItems={"center"}
                     mt={"20px"}
                   >
-                    <Button colorScheme="blue">Submit</Button>
+                    <Button onClick={handleSubmitInstructor} colorScheme="blue">Submit</Button>
                   </Box>
                 </Box>
               </TabPanel>

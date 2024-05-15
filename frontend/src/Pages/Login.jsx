@@ -16,9 +16,15 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleSudentLogin } from "../Redux/StudentAuth/action";
+import { handleInstructorLogin } from "../Redux/InstructorAuth/action";
 
 function Login() {
   const [studentForm, setStudentForm] = useState({
+    mobile: "",
+    password: "",
+  });
+
+  const [instructorForm, setInstructorForm] = useState({
     mobile: "",
     password: "",
   });
@@ -31,6 +37,11 @@ function Login() {
     setStudentForm({ ...studentForm, [name]: value });
   };
 
+  const handleChangeInstructor = (e) => {
+    const { name, value } = e.target;
+    setInstructorForm({ ...instructorForm, [name]: value });
+  };
+
   const handleSubmitStudent = () => {
     dispatch(handleSudentLogin(studentForm, navigate));
 
@@ -40,9 +51,18 @@ function Login() {
     });
   };
 
-  useEffect(()=>{
-    document.title="Login | Edusphere"
-  },[])
+  const handleSubmitInstructor = () => {
+    dispatch(handleInstructorLogin(instructorForm, navigate));
+
+    setInstructorForm({
+      mobile: "",
+      password: "",
+    });
+  };
+
+  useEffect(() => {
+    document.title = "Login | Edusphere";
+  }, []);
   return (
     <Box
       h={"100vh"}
@@ -111,7 +131,9 @@ function Login() {
                     alignItems={"center"}
                     mt={"20px"}
                   >
-                    <Button onClick={handleSubmitStudent} colorScheme="blue">Submit</Button>
+                    <Button onClick={handleSubmitStudent} colorScheme="blue">
+                      Submit
+                    </Button>
                   </Box>
                 </Box>
               </TabPanel>
@@ -120,13 +142,23 @@ function Login() {
                   <Box>
                     <FormControl>
                       <FormLabel>Mobile Number</FormLabel>
-                      <Input type="tel" placeholder="Enter number" isRequired />
+                      <Input
+                        type="tel"
+                        placeholder="Enter number"
+                        name="mobile"
+                        value={instructorForm.mobile}
+                        onChange={handleChangeInstructor}
+                        isRequired
+                      />
                     </FormControl>
                     <FormControl mt={"10px"}>
                       <FormLabel>Password</FormLabel>
                       <Input
                         type="password"
                         placeholder="Enter password"
+                        name="password"
+                        value={instructorForm.password}
+                        onChange={handleChangeInstructor}
                         isRequired
                       />
                     </FormControl>
@@ -137,7 +169,7 @@ function Login() {
                     alignItems={"center"}
                     mt={"20px"}
                   >
-                    <Button colorScheme="blue">Submit</Button>
+                    <Button onClick={handleSubmitInstructor} colorScheme="blue">Submit</Button>
                   </Box>
                 </Box>
               </TabPanel>

@@ -54,11 +54,11 @@ instructorRoutes.post("/login", async (req, res) => {
     if (instructor) {
       bcrypt.compare(password, instructor?.password, async (err, result) => {
         if (result) {
-          const token = jwt.sign({ instructorId: instructor._id }, "masai");
-          const role = "instructor";
+          const token = jwt.sign({ userId: instructor._id, role:"instructor" }, "masai");
+          
           res
             .status(200)
-            .send({ message: "Instructor login success", token, role });
+            .send({ message: "Instructor login success", token});
         } else {
           res.status(500).send({ message: "Instructor login failed" });
         }
@@ -69,40 +69,39 @@ instructorRoutes.post("/login", async (req, res) => {
   }
 });
 
-instructorRoutes.get("/profile", async (req, res) => {
-  const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "masai");
-  try {
-    if (decoded) {
-      let instructor = await InstructorAuthModel.findOne({
-        _id: decoded.instructorId,
-      });
-      res.status(200).send(instructor);
-    } else {
-      res.status(500).send({ message: "Please, Login first!" });
-    }
-  } catch (err) {
-    res.status(500).send({ error: err });
-  }
-});
+instructorRoutes.get("/profile", async(req, res)=>{
+  const token=req.headers.authorization
+  const decoded=jwt.verify(token, 'masai')
 
-instructorRoutes.patch("/profile-update", async (req, res) => {
-  const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "masai");
-  const payload = req.body;
-  try {
-    if (decoded) {
-      await InstructorAuthModel.findByIdAndUpdate(
-        { _id: decoded.instructorId },
-        payload
-      );
-      res.status(200).send({ message: "Profile updated successfully" });
-    } else {
-      res.status(500).send({ message: "Please, Login first!" });
+  try{
+    if(decoded.role=="instructor"){
+      let instructor=await InstructorAuthModel.findOne({_id:decoded.userId})
+      res.status(200).send(instructor)
+    }else{
+      res.status(500).send({message:"Please, Login first!"})
     }
-  } catch (err) {
+
+  }catch(err){
     res.status(500).send({ error: err });
   }
-});
+})
+
+instructorRoutes.patch("/profile-update", async(req, res)=>{
+  const token=req.headers.authorization
+  const decoded=jwt.verify(token, 'masai')
+  const payload=req.body;
+
+  try{
+    if(decoded.role=="instructor"){
+      await InstructorAuthModel.findByIdAndUpdate({_id:decoded.userId}, payload)
+      res.status(200).send({message:"Profile updated successfully"})
+
+    }else{
+      res.status(500).send({message:"Please, Login first!"})
+    }
+  }catch(err){
+    res.status(500).send({ error: err });
+  }
+})
 
 module.exports={instructorRoutes}

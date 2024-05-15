@@ -1,19 +1,5 @@
 const mongoose=require("mongoose")
 
-const subjectSchema = mongoose.Schema({
-    subject: String,
-    
-},{
-    versionKey:false
-});
-
-const classSchema = mongoose.Schema({
-    class: String,
-    subjects: [subjectSchema], 
-    
-},{
-    versionKey:false
-});
 
 const instructorSchema=mongoose.Schema({
     name:{
@@ -52,7 +38,12 @@ const instructorSchema=mongoose.Schema({
     state:{
         type:String
     },
-    classes:[classSchema],
+    class:{
+        type:String
+    },
+    subject:{
+        type:String
+    },
     image:{
         type:String
     },

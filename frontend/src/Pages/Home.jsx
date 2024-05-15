@@ -7,14 +7,16 @@ import { useEffect, useState } from "react";
 import {useDispatch, useSelector} from "react-redux"
 import { getProfileStudent } from "../Redux/StudentProfile/action";
 import StudentModal from "../Components/StudentModal";
+import { getProfileInstructor } from "../Redux/InstructorProfile/action";
+import InstructorModal from "../Components/InstructorModal";
 
 function Home() {
   const [token, setToken]=useState(null)
-  const [role, setRole]=useState(null)
-
+  
   const navigate = useNavigate();
   const dispatch=useDispatch()
   const {getProfileDataStudent}=useSelector((store)=>store.studentProfileReducer)
+  const {getProfileDataInstructor}=useSelector((store)=>store.instructorProfileReducer)
 
   useEffect(()=>{
     document.title="Home | Edusphere"
@@ -24,15 +26,18 @@ function Home() {
     let tokenData = localStorage.getItem("token") || null;
     setToken(tokenData);
 
-    let roleData = localStorage.getItem("role") || null;
-    setRole(roleData);
   },[])
 
   useEffect(()=>{
     dispatch(getProfileStudent)
   },[])
 
+  useEffect(()=>{
+    dispatch(getProfileInstructor)
+  },[])
+
  console.log("getProfileDataStudent",getProfileDataStudent)
+ console.log("getProfile", getProfileDataInstructor)
 
   return (
     <Box>
@@ -72,20 +77,6 @@ function Home() {
             <Box mt={"20px"}>
               <Heading fontFamily={"cursive"} color={"orange"} fontSize={"23px"}>WelCome To Edusphere</Heading>
             </Box>
-            {/* <Box
-              mt={"20px"}
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              gap={"20px"}
-            >
-              <Button onClick={() => navigate("/signup")} colorScheme="orange">
-                SIGN UP NOW
-              </Button>
-              <Button onClick={() => navigate("/login")} colorScheme="orange">
-                LOGIN HERE
-              </Button>
-            </Box> */}
           </Box>
         </Box>
         <Box w={"70%"} m={"auto"} mt={"50px"}>
@@ -203,7 +194,8 @@ function Home() {
             <TestimonialSlider/>
           </Box>
         </Box>
-        {getProfileDataStudent && !getProfileDataStudent.class && <StudentModal/>}
+        {getProfileDataStudent?.role=="student" && !getProfileDataStudent?.class && <StudentModal/>}
+        {getProfileDataInstructor?.role=="instructor" && !getProfileDataInstructor.class && <InstructorModal/>}
         <Box mt={"30px"}>
           <Footer/>
         </Box>
