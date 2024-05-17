@@ -4,7 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const getProfileStudent = (dispatch) => {
-  dispatch({ type: types.STUDENT_GET_PROFILE_LOADING });
+  let token=localStorage.getItem("token")
+  if(token){
+    dispatch({ type: types.STUDENT_GET_PROFILE_LOADING });
 
   axios
     .get(`${baseUrl}/students/profile`, {
@@ -19,6 +21,8 @@ export const getProfileStudent = (dispatch) => {
       dispatch({ type: types.STUDENT_GET_PROFILE_ERROR });
       
     });
+  }
+  
 };
 
 export const updateProfileStudent = (data) => (dispatch) => {

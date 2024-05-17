@@ -34,6 +34,7 @@ export const handleInstructorLogin = (data, navigate) => (dispatch) => {
     .then((res) => {
       if (res.data.message == "Instructor login success") {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", "instructor")
         dispatch({ type: types.INSTRUCTOR_LOGIN_SUCCESS, payload: res.data });
         toast.success("Instructor Login Successfully!");
         navigate("/");

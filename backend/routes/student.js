@@ -71,6 +71,8 @@ studentRoutes.post("/login", async (req, res) => {
 studentRoutes.get("/profile", async(req, res)=>{
   const token=req.headers.authorization;
   const decoded = jwt.verify(token, 'masai');
+
+  console.log("studentProfile", decoded)
  
   try{
     if(decoded.role=="student"){

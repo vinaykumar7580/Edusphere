@@ -4,12 +4,14 @@ import studentAuthReducer from "./StudentAuth/reducer";
 import studentProfileReducer from "./StudentProfile/reducer";
 import instructorAuthReducer from "./InstructorAuth/reducer";
 import instructorProfileReducer from "./InstructorProfile/reducer";
+import lectureReducer from "./Lecture/reducer";
 
 const rootReducer = combineReducers({
     studentAuthReducer,
     studentProfileReducer,
     instructorAuthReducer,
-    instructorProfileReducer
+    instructorProfileReducer,
+    lectureReducer
     
   });
   

@@ -15,26 +15,30 @@ import { useSelector } from "react-redux";
 
 function Navbar() {
   const [token, setToken] = useState(null);
-  const [role, setRole] = useState(null);
+  const [role, setRole]=useState(null)
+  
 
   const navigate = useNavigate();
-  const {getProfileDataStudent}=useSelector((store)=>store.studentProfileReducer)
-  const {getProfileDataInstructor}=useSelector((store)=>store.instructorProfileReducer)
-
+ 
   useEffect(() => {
     let tokenData = localStorage.getItem("token") || null;
     setToken(tokenData);
+
+    let roleData= localStorage.getItem("role") || null;
+    setRole(roleData)
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role")
 
     setToken(null);
+    setRole(null)
 
     navigate("/");
   };
 
-  console.log("from", getProfileDataStudent)
+ 
 
   return (
     <Box
@@ -75,7 +79,7 @@ function Navbar() {
           alignItems={"center"}
           gap={"20px"}
         >
-          {getProfileDataStudent && getProfileDataStudent?.role == "student" && (
+          {role == "student" && (
             <Box
               display={"flex"}
               justifyContent={"space-between"}
@@ -94,7 +98,7 @@ function Navbar() {
             </Box>
           )}
 
-          {getProfileDataInstructor && getProfileDataInstructor?.role == "instructor" && (
+          {role == "instructor" && (
             <Box
               display={"flex"}
               justifyContent={"space-between"}
@@ -102,7 +106,7 @@ function Navbar() {
               gap={"20px"}
             >
               <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
-                <Link to={"#"}>Lectures</Link>
+                <Link to={"/instructor/lecture"}>Lectures</Link>
               </Text>
               <Text _hover={{ borderBottom: "3px solid blue", color: "blue" }}>
                 <Link to={"#"}>Assignments</Link>
@@ -132,7 +136,7 @@ function Navbar() {
             alignItems={"center"}
             gap={"20px"}
           >
-            {getProfileDataStudent && getProfileDataStudent?.role == "student" && (
+            {role == "student" && (
               <Box>
                 <Menu>
                   <MenuButton mt={"10px"}>

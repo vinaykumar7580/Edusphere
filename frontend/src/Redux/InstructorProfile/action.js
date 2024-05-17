@@ -4,21 +4,25 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const getProfileInstructor = (dispatch) => {
-  dispatch({ type: types.INSTRUCTOR_GET_PROFILE_LOADING});
+  let token=localStorage.getItem("token")
+  if(token){
+    dispatch({ type: types.INSTRUCTOR_GET_PROFILE_LOADING});
 
-  axios
-    .get(`${baseUrl}/instructors/profile`, {
-      headers: {
-        Authorization: `${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      dispatch({ type: types.INSTRUCTOR_GET_PROFILE_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      dispatch({ type: types.INSTRUCTOR_GET_PROFILE_ERROR});
-      
-    });
+    axios
+      .get(`${baseUrl}/instructors/profile`, {
+        headers: {
+          Authorization: `${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        dispatch({ type: types.INSTRUCTOR_GET_PROFILE_SUCCESS, payload: res.data });
+      })
+      .catch((err) => {
+        dispatch({ type: types.INSTRUCTOR_GET_PROFILE_ERROR});
+        
+      });
+  }
+ 
 };
 
 export const updateProfileInstructor = (data) => (dispatch) => {

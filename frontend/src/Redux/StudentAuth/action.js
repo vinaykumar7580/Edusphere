@@ -35,6 +35,7 @@ export const handleSudentLogin = (data, navigate) => (dispatch) => {
       console.log("stuLogin", res.data);
       if (res.data.message == "Student login success") {
         localStorage.setItem("token", res.data.token)
+        localStorage.setItem("role", "student")
         dispatch({ type: types.STUDENT_LOGIN_SUCCESS, payload: res.data });
         toast.success("Student Login Successfully!");
         navigate("/");
