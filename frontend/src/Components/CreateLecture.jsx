@@ -23,17 +23,21 @@ function CreateLecture() {
   const [formData, setFormData] = useState({
     title: "",
     notes: "",
-    videoUrl: "",
+    videoUrl: null,
     lectureType: "",
     lectureTimeDate: "",
   });
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, videoUrl: e.target.files[0] });
   };
 
   const handleNotesChange = (value) => {
@@ -43,29 +47,28 @@ function CreateLecture() {
   const handleSubmit = () => {
     const utcDateTime = new Date(formData.lectureTimeDate).toISOString();
 
-    const lectureData = {
-      ...formData,
-      lectureTimeDate: utcDateTime,
-    };
-    console.log("formData", lectureData);
+    const uploadData = new FormData();
+    uploadData.append("file", formData.videoUrl);
+    uploadData.append("title", formData.title);
+    uploadData.append("notes", formData.notes);
+    uploadData.append("lectureType", formData.lectureType);
+    uploadData.append("lectureTimeDate", utcDateTime);
 
-    dispatch(handleAddLecture(lectureData))
-
+    dispatch(handleAddLecture(uploadData));
 
     setFormData({
       title: "",
       notes: "",
-      videoUrl: "",
+      videoUrl: null,
       lectureType: "",
       lectureTimeDate: "",
     });
     onClose();
-     
   };
 
   return (
     <>
-      <Button onClick={onOpen} colorScheme="orange">
+      <Button onClick={onOpen} colorScheme="green">
         Create Lecture
       </Button>
 
@@ -112,13 +115,8 @@ function CreateLecture() {
               <ReactQuill value={formData.notes} onChange={handleNotesChange} />
             </FormControl>
             <FormControl mb={4}>
-              <FormLabel>Video URL</FormLabel>
-              <Input
-                type="text"
-                name="videoUrl"
-                value={formData.videoUrl}
-                onChange={handleChange}
-              />
+              <FormLabel>Video</FormLabel>
+              <Input pt={"5px"} type="file" onChange={handleFileChange} />
             </FormControl>
           </ModalBody>
 

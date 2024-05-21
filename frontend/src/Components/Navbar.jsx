@@ -47,21 +47,21 @@ function Navbar() {
       alignItems={"center"}
       p={"10px 80px"}
       boxShadow={"md"}
-      // background="linear-gradient(
-      //   90deg,
-      //   rgba(2, 0, 36, 1) 0%,
-      //   rgba(9, 9, 121, 1) 35%,
-      //   rgba(0, 212, 255, 1) 100%
-      // )"
-      // backgroundColor={"transparent"}
-      backgroundColor={"rgba(0, 0, 0, 0.3)"}
+      // backgroundColor={"rgba(0, 0, 0, 0.3)"}
+      // backgroundColor={"black"}
+      background="linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(9, 9, 121, 1) 35%,
+        rgba(0, 212, 255, 1) 100%
+      )"
       zIndex={2000}
     >
       <Box
         fontSize={"30px"}
         fontWeight={"bold"}
         fontFamily={"cursive"}
-        color={"white"}
+        color={"rgba(0, 212, 255, 1)"}
       >
         <Link to={"/"}>EduSphere</Link>
       </Box>

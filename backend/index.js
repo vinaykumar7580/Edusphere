@@ -1,24 +1,26 @@
-const express=require("express")
-const cors=require("cors")
-const { connection } = require("./db")
-const { studentRoutes } = require("./routes/student")
-const { instructorRoutes } = require("./routes/instructor")
+const express = require("express");
+const cors = require("cors");
 
-const app=express()
+const { connection } = require("./db");
+const { studentRoutes } = require("./routes/student");
+const { instructorRoutes } = require("./routes/instructor");
 
-app.use(express.json())
-app.use(cors())
+const app = express();
 
-app.use("/students", studentRoutes)
-app.use("/instructors", instructorRoutes)
+app.use(express.json());
+app.use(cors());
 
-app.listen(8080, async()=>{
-    try{
-        await connection
-        console.log("mongodb connected")
-    }catch(err){
-        console.log(err)
-        console.log("mongodb not connected")
-    }
-    console.log("server running on port 8080")
-})
+
+app.use("/students", studentRoutes);
+app.use("/instructors", instructorRoutes);
+
+app.listen(8080, async () => {
+  try {
+    await connection;
+    console.log("mongodb connected");
+  } catch (err) {
+    console.log(err);
+    console.log("mongodb not connected");
+  }
+  console.log("server running on port 8080");
+});

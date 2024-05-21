@@ -1,10 +1,27 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fileUpload = require("express-fileupload");
+const cloudinary = require("cloudinary").v2;
 const { InstructorAuthModel } = require("../model/instructorAuth");
 const { LectureModel } = require("../model/lecture");
+const dotenv = require("dotenv");
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const instructorRoutes = express.Router();
+
+instructorRoutes.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 
 instructorRoutes.post("/register", async (req, res) => {
   const {
@@ -113,25 +130,45 @@ instructorRoutes.patch("/profile-update", async (req, res) => {
 instructorRoutes.post("/lecture/add", async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
-  const { title, notes, videoUrl, lectureType, lectureTimeDate } = req.body;
+  const { title, notes, lectureType, lectureTimeDate } = req.body;
+  const file = req.files.file;
 
   let instructor = await InstructorAuthModel.findOne({ _id: decoded.userId });
 
   try {
     if (decoded.role == "instructor") {
-      let lecture = new LectureModel({
-        title,
-        notes,
-        videoUrl,
-        lectureType,
-        lectureTimeDate,
-        instructorName: instructor.name,
-        subject: instructor.subject,
-        class: instructor.class,
-        userId:instructor._id
-      });
-      await lecture.save();
-      res.status(200).send({ message: "Lecture Added successfully!" });
+      if (req.files) {
+        const result = await cloudinary.uploader.upload(file.tempFilePath, {
+          resource_type: "auto",
+        });
+
+        let lecture = new LectureModel({
+          title,
+          notes,
+          videoUrl: result.secure_url,
+          lectureType,
+          lectureTimeDate,
+          instructorName: instructor.name,
+          subject: instructor.subject,
+          class: instructor.class,
+          userId: instructor._id,
+        });
+        await lecture.save();
+        res.status(200).send({ message: "Lecture Added successfully!" });
+      } else {
+        let lecture = new LectureModel({
+          title,
+          notes,
+          lectureType,
+          lectureTimeDate,
+          instructorName: instructor.name,
+          subject: instructor.subject,
+          class: instructor.class,
+          userId: instructor._id,
+        });
+        await lecture.save();
+        res.status(200).send({ message: "Lecture Added successfully!" });
+      }
     } else {
       res.status(500).send({ message: "Please, Login first!" });
     }
@@ -140,23 +177,22 @@ instructorRoutes.post("/lecture/add", async (req, res) => {
   }
 });
 
-instructorRoutes.get("/lecture/get", async(req, res)=>{
+instructorRoutes.get("/lecture/get", async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
 
   let instructor = await InstructorAuthModel.findOne({ _id: decoded.userId });
 
-  try{
-    if(instructor){
-      let lecture=await LectureModel.find({userId:instructor._id})
-      res.status(200).send(lecture)
-    }else{
+  try {
+    if (instructor) {
+      let lecture = await LectureModel.find({ userId: instructor._id });
+      res.status(200).send(lecture);
+    } else {
       res.status(500).send({ message: "Please, Login first!" });
     }
-
-  }catch(err){
+  } catch (err) {
     res.status(500).send({ error: err });
   }
-})
+});
 
 module.exports = { instructorRoutes };
