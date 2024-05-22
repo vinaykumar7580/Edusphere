@@ -49,7 +49,7 @@ function Home() {
             src="https://cdn.pixabay.com/photo/2018/03/21/07/16/learning-3245793_1280.jpg"
             alt="image-poster"
           />
-          <Box w={"100%"} position={"fixed"} top={0}>
+          <Box w={"100%"} position={"fixed"} top={0} zIndex={500}>
             <Navbar />
           </Box>
           <Box

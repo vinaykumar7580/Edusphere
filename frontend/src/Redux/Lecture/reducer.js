@@ -8,6 +8,10 @@ const initialState = {
   getLectureLoading: false,
   getLectureError: false,
   getLectureData: [],
+
+  getLectureDetailsLoading: false,
+  getLectureDetailsError: false,
+  getLectureDetailsData: {},
 };
 
 const lectureReducer = (state = initialState, action) => {
@@ -45,10 +49,30 @@ const lectureReducer = (state = initialState, action) => {
         getLectureData: action.payload,
       };
     case types.GET_LECTURE_ERROR:
-      return{
+      return {
         ...state,
         getLectureLoading: false,
         getLectureError: true,
+      };
+
+    case types.GET_LECTURE_DETAILS_LOADING:
+      return {
+        ...state,
+        getLectureDetailsLoading: true,
+        getLectureDetailsError: false,
+      };
+    case types.GET_LECTURE_DETAILS_SUCCESS:
+      return {
+        ...state,
+        getLectureDetailsLoading: false,
+        getLectureDetailsError: false,
+        getLectureDetailsData:action.payload
+      };
+    case types.GET_LECTURE_DETAILS_ERROR:
+      return{
+        ...state,
+        getLectureDetailsLoading: false,
+        getLectureDetailsError: true,
       }
     default:
       return state;

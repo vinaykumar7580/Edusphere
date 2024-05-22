@@ -6,8 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleGetLecture } from "../Redux/Lecture/action";
 import { MdOutlineDateRange, MdOutlinePersonAddAlt } from "react-icons/md";
 import { GoTag } from "react-icons/go";
+import Footer from "../Components/Footer";
+import { useNavigate } from "react-router-dom";
 
 function LectureInstructor() {
+
+  const navigate=useNavigate();
   const dispatch = useDispatch();
   const { getLectureData } = useSelector((store) => store.lectureReducer);
 
@@ -31,9 +35,11 @@ function LectureInstructor() {
   console.log("getlecture", getLectureData);
 
   return (
-    <Box>
-      <Navbar />
-      <Box w={"70%"} m={"auto"} mt={"30px"}>
+    <Box position={"relative"}>
+      <Box w={"100%"} position={"fixed"} top={0} zIndex={500}>
+        <Navbar />
+      </Box>
+      <Box w={"70%"} m={"auto"} mt={"100px"}>
         <Heading fontFamily={"serif"} color={"rgba(0, 212, 255, 1)"}>
           Lectures
         </Heading>
@@ -50,7 +56,7 @@ function LectureInstructor() {
         >
           {data &&
             data?.map((el) => (
-              <Box key={el._id} p={"7px"} cursor={"pointer"}>
+              <Box key={el._id} p={"7px"} cursor={"pointer"} onClick={()=>navigate(`/instructor/lecture/${el._id}`)}>
                 <Box
                   display={"flex"}
                   justifyContent={"flex-start"}
@@ -98,6 +104,9 @@ function LectureInstructor() {
               </Box>
             ))}
         </Box>
+      </Box>
+      <Box mt={"50px"}>
+        <Footer />
       </Box>
     </Box>
   );

@@ -7,6 +7,130 @@
   pointer-events: none;
 }
 
+/* General styles for the note container */
+.note {
+  border: 1px solid #007BFF; /* Blue border */
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f0f8ff; /* Light blue background */
+  border-radius: 8px;
+  font-family: 'Arial', sans-serif;
+  color: #000; /* Black text */
+}
+
+/* Text elements */
+.note p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  color: #000; /* Black text */
+}
+
+.note h1, .note h2, .note h3, .note h4, .note h5, .note h6 {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 12px;
+  color: #007BFF; /* Blue headings */
+}
+
+.note h1 { font-size: 2.2em; }
+.note h2 { font-size: 2em; }
+.note h3 { font-size: 1.8em; }
+.note h4 { font-size: 1.6em; }
+.note h5 { font-size: 1.4em; }
+.note h6 { font-size: 1.2em; }
+
+/* Lists */
+.note ul, .note ol {
+  margin: 12px 0;
+  padding-left: 25px;
+  color: #000; /* Black text */
+}
+
+.note ul {
+  list-style-type: disc;
+}
+
+.note ol {
+  list-style-type: decimal;
+}
+
+.note li {
+  margin-bottom: 8px;
+}
+
+/* Blockquote */
+.note blockquote {
+  margin: 12px 0;
+  padding: 12px 20px;
+  background-color: #e6f2ff; /* Very light blue */
+  border-left: 5px solid #007BFF; /* Blue border */
+  font-style: italic;
+  color: #000; /* Black text */
+}
+
+/* Code blocks */
+.note pre {
+  background-color: #e6f2ff; /* Very light blue */
+  padding: 12px;
+  border-radius: 6px;
+  overflow-x: auto;
+  color: #000; /* Black text */
+}
+
+.note code {
+  background-color: #e6f2ff; /* Very light blue */
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #d63384; /* Pinkish color for inline code */
+}
+
+/* Images */
+.note img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 12px 0;
+}
+
+/* Links */
+.note a {
+  color: #007BFF; /* Blue links */
+  text-decoration: none;
+}
+
+.note a:hover {
+  text-decoration: underline;
+}
+
+/* Tables */
+.note table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+}
+
+.note th, .note td {
+  border: 1px solid #007BFF; /* Blue border */
+  padding: 10px;
+  text-align: left;
+  color: #000; /* Black text */
+}
+
+.note th {
+  background-color: #e6f2ff; /* Very light blue */
+}
+
+/* Horizontal rules */
+.note hr {
+  border: 0;
+  height: 1px;
+  background-color: #007BFF; /* Blue */
+  margin: 20px 0;
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

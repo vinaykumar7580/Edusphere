@@ -46,3 +46,21 @@ export const handleAddLecture = (data) => (dispatch) => {
       toast.error("Error, Please try again later.");
     });
 };
+
+export const handleGetLectureDetails=(id)=>(dispatch)=>{
+  dispatch({type:types.GET_LECTURE_DETAILS_LOADING})
+
+  axios.get(`${baseUrl}/instructors/lecture/get/${id}`,{
+    headers: {
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+  })
+  .then((res)=>{
+    dispatch({type:types.GET_LECTURE_DETAILS_SUCCESS, payload:res.data})
+  })
+  .catch((err)=>{
+    console.log(err)
+    dispatch({type:types.GET_LECTURE_DETAILS_ERROR})
+  })
+
+}

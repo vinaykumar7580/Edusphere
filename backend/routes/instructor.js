@@ -131,46 +131,34 @@ instructorRoutes.post("/lecture/add", async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
   const { title, notes, lectureType, lectureTimeDate } = req.body;
-  const file = req.files.file;
+  // const file = req.files.file;
 
   let instructor = await InstructorAuthModel.findOne({ _id: decoded.userId });
 
   try {
     if (decoded.role == "instructor") {
-      if (req.files) {
+      let videoUrl = null;
+      if (req.files && req.files.file) {
+        const file = req.files.file;
         const result = await cloudinary.uploader.upload(file.tempFilePath, {
           resource_type: "auto",
         });
-
-        let lecture = new LectureModel({
-          title,
-          notes,
-          videoUrl: result.secure_url,
-          lectureType,
-          lectureTimeDate,
-          instructorName: instructor.name,
-          subject: instructor.subject,
-          class: instructor.class,
-          userId: instructor._id,
-        });
-        await lecture.save();
-        res.status(200).send({ message: "Lecture Added successfully!" });
-      } else {
-        let lecture = new LectureModel({
-          title,
-          notes,
-          lectureType,
-          lectureTimeDate,
-          instructorName: instructor.name,
-          subject: instructor.subject,
-          class: instructor.class,
-          userId: instructor._id,
-        });
-        await lecture.save();
-        res.status(200).send({ message: "Lecture Added successfully!" });
+        videoUrl = result.secure_url;
       }
-    } else {
-      res.status(500).send({ message: "Please, Login first!" });
+
+      let lecture = new LectureModel({
+        title,
+        notes,
+        videoUrl,
+        lectureType,
+        lectureTimeDate,
+        instructorName: instructor.name,
+        subject: instructor.subject,
+        class: instructor.class,
+        userId: instructor._id,
+      });
+      await lecture.save();
+      res.status(200).send({ message: "Lecture Added successfully!" });
     }
   } catch (err) {
     res.status(500).send({ error: err });
@@ -186,6 +174,23 @@ instructorRoutes.get("/lecture/get", async (req, res) => {
   try {
     if (instructor) {
       let lecture = await LectureModel.find({ userId: instructor._id });
+      res.status(200).send(lecture);
+    } else {
+      res.status(500).send({ message: "Please, Login first!" });
+    }
+  } catch (err) {
+    res.status(500).send({ error: err });
+  }
+});
+
+instructorRoutes.get("/lecture/get/:id", async (req, res) => {
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, "masai");
+  const {id}=req.params;
+
+  try {
+    if (decoded.role == "instructor") {
+      let lecture = await LectureModel.findOne({ _id:id });
       res.status(200).send(lecture);
     } else {
       res.status(500).send({ message: "Please, Login first!" });
