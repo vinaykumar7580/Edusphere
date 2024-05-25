@@ -186,11 +186,11 @@ instructorRoutes.get("/lecture/get", async (req, res) => {
 instructorRoutes.get("/lecture/get/:id", async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, "masai");
-  const {id}=req.params;
+  const { id } = req.params;
 
   try {
     if (decoded.role == "instructor") {
-      let lecture = await LectureModel.findOne({ _id:id });
+      let lecture = await LectureModel.findOne({ _id: id });
       res.status(200).send(lecture);
     } else {
       res.status(500).send({ message: "Please, Login first!" });
@@ -199,5 +199,57 @@ instructorRoutes.get("/lecture/get/:id", async (req, res) => {
     res.status(500).send({ error: err });
   }
 });
+
+instructorRoutes.patch("/lecture/update/:id", async (req, res) => {
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, "masai");
+  const { id } = req.params;
+  const payload = req.body;
+ 
+
+  let lecture=await LectureModel.findOne({_id:id})
+
+  try {
+    if (decoded.role == "instructor") {
+      let videoUrl = lecture.videoUrl;
+      if (req.files && req.files.file) {
+        const file = req.files.file;
+        const result = await cloudinary.uploader.upload(file.tempFilePath, {
+          resource_type: "auto",
+        });
+        videoUrl = result.secure_url;
+
+        await LectureModel.findByIdAndUpdate({ _id: id }, {...payload, videoUrl});
+        res.status(200).send({ message: "Lecture updated successfully!" });
+      }else{
+        await LectureModel.findByIdAndUpdate({ _id: id }, {...payload, videoUrl});
+        res.status(200).send({ message: "Lecture updated successfully!" });
+      }
+    } else {
+      res.status(500).send({ message: "Please, Login first!" });
+    }
+  } catch (err) {
+    res.status(500).send({ error: err });
+  }
+});
+
+instructorRoutes.delete("/lecture/delete/:id", async(req, res)=>{
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, "masai");
+  const { id } = req.params;
+
+  try{
+    if(decoded.role == "instructor"){
+      await LectureModel.findByIdAndDelete({_id:id})
+      res.status(200).send({message:"Lecture deleted successfully!"})
+
+    }else {
+      res.status(500).send({ message: "Please, Login first!" });
+    }
+
+  }catch(err){
+    res.status(500).send({ error: err });
+  }
+})
 
 module.exports = { instructorRoutes };

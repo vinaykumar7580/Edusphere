@@ -1,16 +1,23 @@
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { handleGetLectureDetails } from "../Redux/Lecture/action";
+import { useNavigate, useParams } from "react-router-dom";
+import { handleDeleteLecture, handleGetLectureDetails } from "../Redux/Lecture/action";
 import Footer from "../Components/Footer";
 import Navbar from "../Components/Navbar";
-import { MdOutlineDateRange, MdOutlinePersonAddAlt } from "react-icons/md";
+import {
+  MdEditDocument,
+  MdOutlineDateRange,
+  MdOutlinePersonAddAlt,
+} from "react-icons/md";
 import { GoTag } from "react-icons/go";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import EditLecture from "../Components/EditLecture";
 
 function LectureDetailsInstructor() {
   const params = useParams();
 
+  const navigate=useNavigate()
   const dispatch = useDispatch();
   const { getLectureDetailsData } = useSelector(
     (store) => store.lectureReducer
@@ -23,6 +30,10 @@ function LectureDetailsInstructor() {
   useEffect(() => {
     dispatch(handleGetLectureDetails(params.id));
   }, []);
+
+  const handleDelete=(id)=>{
+    dispatch(handleDeleteLecture(id, navigate))
+  }
 
   const handleDateTime = (date) => {
     const localDate = new Date(date);
@@ -119,14 +130,28 @@ function LectureDetailsInstructor() {
               alignItems={"flex-start"}
               gap={"15px"}
             >
-              <Button colorScheme="blue">Edit</Button>
-              <Button colorScheme="red">Delete</Button>
+              <EditLecture data={getLectureDetailsData}/>
+              <Button
+                color={"red"}
+                border={"1px solid red"}
+                display={"flex"}
+                alignItems={"center"}
+                gap={"7px"}
+                fontWeight={"bold"}
+                onClick={()=>handleDelete(getLectureDetailsData?._id)}
+              >
+                <span>
+                <RiDeleteBin6Fill />
+                </span>
+                <span>Delete</span>
+              </Button>
+              
             </Box>
           </Box>
 
           <hr style={{ border: "1px solid #ccc", marginTop: "10px" }} />
           {getLectureDetailsData && getLectureDetailsData?.videoUrl && (
-            <Box w={"80%"} m={"auto"} mt={"20px"}>
+            <Box w={"90%"} m={"auto"} mt={"20px"}>
               <Heading size={"lg"}>Lecture</Heading>
 
               <Box mt={"20px"}>
@@ -143,7 +168,7 @@ function LectureDetailsInstructor() {
               <hr style={{ border: "1px solid #ccc", marginTop: "30px" }} />
             </Box>
           )}
-          <Box w={"80%"} m={"auto"} mt={"20px"}>
+          <Box w={"90%"} m={"auto"} mt={"20px"}>
             <Heading size={"lg"}>Notes</Heading>
             <Box mt={"20px"} textAlign={"left"}>
               <div

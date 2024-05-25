@@ -64,3 +64,52 @@ export const handleGetLectureDetails=(id)=>(dispatch)=>{
   })
 
 }
+
+export const handleUpdateLecture=(id, data)=>(dispatch)=>{
+  dispatch({type:types.EDIT_LECTURE_LOADING})
+
+  axios.patch(`${baseUrl}/instructors/lecture/update/${id}`, data, {
+    headers: {
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+  })
+  .then((res)=>{
+    if (res.data.message == "Lecture updated successfully!") {
+      toast.success(`${res.data.message}`);
+      dispatch({ type: types.EDIT_LECTURE_SUCCESS, payload: res.data });
+      dispatch(handleGetLectureDetails(id));
+      
+    } else {
+      toast.error(`${res.data.message}!`);
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    dispatch({ type: types.EDIT_LECTURE_ERROR });
+    toast.error("Error, Please try again later.");
+  });
+
+}
+
+export const handleDeleteLecture=(id, navigate)=>(dispatch)=>{
+
+  axios.delete(`${baseUrl}/instructors/lecture/delete/${id}`,{
+    headers: {
+      Authorization: `${localStorage.getItem("token")}`,
+    },
+  })
+  .then((res)=>{
+    if (res.data.message == "Lecture deleted successfully!") {
+      toast.success(`${res.data.message}`);
+      handleGetLecture(dispatch)
+      navigate("/instructor/lecture")
+      
+    } else {
+      toast.error(`${res.data.message}!`);
+    }
+  })
+  .catch((err) => {
+    console.log(err);
+    toast.error("Error, Please try again later.");
+  });
+}
